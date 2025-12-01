@@ -27,6 +27,10 @@ cron.schedule("0 8 * * 0", async () => {
 // Optional: run reports every 2 minutes for testing purposes
 if (ENABLE_TWO_MIN_TEST) {
   cron.schedule("*/2 * * * *", async () => {
+   await sendDailyPoll();
+  }, { timezone: TZ });
+
+  cron.schedule("*/2 * * * *", async () => {
     await reportSalawat(GROUP_CHAT_ID, "daily");
     await reportBookReaders(GROUP_CHAT_ID, "daily");
   }, { timezone: TZ });
