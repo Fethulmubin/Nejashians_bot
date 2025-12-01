@@ -25,7 +25,6 @@ cron.schedule("0 8 * * 0", async () => {
 }, { timezone: TZ });
 
 // Optional: run reports every 2 minutes for testing purposes
-const ENABLE_TWO_MIN_TEST = true;
 if (ENABLE_TWO_MIN_TEST) {
   cron.schedule("*/2 * * * *", async () => {
     await reportSalawat(GROUP_CHAT_ID, "daily");
