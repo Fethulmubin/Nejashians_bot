@@ -3,8 +3,14 @@ import { updateSalawatTotal, setSalawatTotal, updateBookLog } from "./polls";
 import { isSalawatPoll, isBookPoll } from './pollRegistry';
 import { mapOptionToCount } from "../utils/helpers";
 
+console.log("🔹 Starting bot...");
+
 const token = process.env.TELEGRAM_BOT_TOKEN!;
-export const bot = new TelegramBot(token, { polling: false });
+export const bot = new TelegramBot(token, { polling: true });
+
+bot.on("polling_error", (err) => {
+  console.error("❌ Polling error:", err);
+});
 
 
 
