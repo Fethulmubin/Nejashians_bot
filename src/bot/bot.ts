@@ -1,6 +1,6 @@
 import TelegramBot from "node-telegram-bot-api";
 import { updateSalawatTotal, setSalawatTotal, updateBookLog } from "./polls";
-import { isSalawatPoll, isBookPoll } from './pollRegistry';
+import { isSalawatPoll, isBookPoll, registerPoll } from './pollRegistry';
 import { mapOptionToCount } from "../utils/helpers";
 
 console.log("🔹 Starting bot...");
@@ -41,6 +41,17 @@ bot.on("poll_answer", async (answer) => {
 // Poll snapshot updates: compute total as sum(option.value * voter_count)
 bot.on("poll", async (poll) => {
   if (!poll?.id) return;
+  // Try to classify and register polls when received, in case sendPoll didn't populate poll.id
+  const optionsText = (poll.options || []).map(o => String(o.text).trim());
+  const allNumeric = optionsText.every(t => /^\d+$/.test(t));
+  const isYesNo = optionsText.length === 2 && optionsText[0].toLowerCase() === 'yes' && optionsText[1].toLowerCase() === 'no';
+
+  if (allNumeric && poll.is_anonymous && poll.allows_multiple_answers) {
+    registerPoll(poll.id, 'SALAWAT');
+  } else if (isYesNo && !poll.is_anonymous) {
+    registerPoll(poll.id, 'BOOK');
+  }
+
   if (!isSalawatPoll(poll.id)) return;
 
   const total = (poll.options || []).reduce((acc, opt) => {

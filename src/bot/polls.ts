@@ -28,23 +28,25 @@ export const sendDailyPoll = async () => {
 
 // Update collective Salawat total
 export const updateSalawatTotal = async (count: number) => {
-  const today = new Date().toISOString().split("T")[0];
-  const existing = await prisma.salawatCollection.findUnique({ where: { date: new Date(today) } });
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const existing = await prisma.salawatCollection.findUnique({ where: { date: today } });
 
   if (existing) {
     await prisma.salawatCollection.update({
-      where: { date: new Date(today) },
+      where: { date: today },
       data: { total: existing.total + count }
     });
   } else {
-    await prisma.salawatCollection.create({ data: { date: new Date(today), total: count } });
+    await prisma.salawatCollection.create({ data: { date: today, total: count } });
   }
 };
 
 // Set today's Salawat total to an exact value (idempotent snapshot from poll)
 export const setSalawatTotal = async (total: number) => {
-  const today = new Date().toISOString().split("T")[0];
-  const key = { date: new Date(today) };
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const key = { date: today };
   const existing = await prisma.salawatCollection.findUnique({ where: key });
 
   if (existing) {
