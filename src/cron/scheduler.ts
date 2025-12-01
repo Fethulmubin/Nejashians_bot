@@ -3,7 +3,7 @@ import { sendDailyPoll } from "../bot/polls";
 import { reportBookReaders, reportSalawat } from "../bot/report";
 
 const GROUP_CHAT_ID = Number(process.env.GROUP_CHAT_ID);
-const ENABLE_TWO_MIN_TEST = true;
+const ENABLE_TWO_MIN_TEST = false;
 
 // Ethiopia timezone (Africa/Addis_Ababa)
 const TZ = "Africa/Addis_Ababa";
