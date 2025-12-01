@@ -4,7 +4,7 @@ import { isSalawatPoll, isBookPoll } from './pollRegistry';
 import { mapOptionToCount } from "../utils/helpers";
 
 const token = process.env.TELEGRAM_BOT_TOKEN!;
-export const bot = new TelegramBot(token, { polling: true });
+export const bot = new TelegramBot(token, { polling: false });
 
 
 

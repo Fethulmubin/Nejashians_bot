@@ -1,9 +1,18 @@
 import express from "express";
 import "./bot/bot";
 import "./cron/scheduler";
+import { bot } from "./bot/bot";
 
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Webhook endpoint
+app.post(`/webhook/${process.env.TELEGRAM_BOT_TOKEN}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
+
+// Start server
+app.listen(3000, () => {
+  console.log("Server running...");
+});
