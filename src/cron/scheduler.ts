@@ -8,8 +8,8 @@ const ENABLE_TWO_MIN_TEST = false;
 // Ethiopia timezone (Africa/Addis_Ababa)
 const TZ = "Africa/Addis_Ababa";
 
-// Daily poll at 6:00 AM Ethiopia time
-cron.schedule("0 6 * * *", async () => {
+// Daily poll at 8:00 AM Ethiopia time
+cron.schedule("0 8 * * *", async () => {
   await sendDailyPoll();
 }, { timezone: TZ });
 
